@@ -7,7 +7,7 @@
 
 ## 📸 Live Demo
 
-🔗 [Click here to view the deployed app](https://your-live-link.netlify.app)  
+🔗 [Click here to view the deployed app]([https://your-live-link.netlify.app](https://688dde5e336ce2963d243ba5--vocal-sunburst-813957.netlify.app/))  
 _(replace with your Netlify or Vercel link)_
 
 ---

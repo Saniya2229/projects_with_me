@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕 Romantic Video Generator 💕</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Parisienne&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #2d1b4e 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1300px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.85), rgba(196, 69, 105, 0.85));
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header h1 {
+            font-family: 'Parisienne', cursive;
+            font-size: 3.5rem;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            color: #d63031;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2d3436;
+        }
+
+        textarea,
+        select,
+        input[type="range"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ffeaa7;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        input[type="range"] {
+            padding: 8px 0;
+            border: none;
+            accent-color: #ff7675;
+        }
+
+        textarea {
+            height: 220px;
+            resize: none;
+            line-height: 1.6;
+        }
+
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #ff7675;
+            box-shadow: 0 0 15px rgba(255, 118, 117, 0.3);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff7675, #d63031);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin: 10px 0;
+            box-shadow: 0 10px 20px rgba(214, 48, 49, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(214, 48, 49, 0.4);
+            background: linear-gradient(135deg, #d63031, #ff7675);
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%   { opacity: 0.7; }
+            50%  { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            font-weight: 500;
+            text-align: center;
+            display: none;
+        }
+
+        .status.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .status.loading {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        #videoCanvas {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background: #1a1a2e;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .download-link {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: none;
+            flex: 1;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 184, 148, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .download-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 184, 148, 0.4);
+        }
+
+        .download-link.show {
+            display: block;
+        }
+
+        .btn-outline {
+            flex: 1;
+            background: white;
+            color: #d63031;
+            border: 2px solid #d63031;
+            box-shadow: none;
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background: #ffeaa7;
+            color: #d63031;
+            box-shadow: none;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            flex-direction: column;
+            gap: 20px;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .spinner {
+            width: 60px; height: 60px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-top: 5px solid #ff7675;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading overlay shown until images are ready -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading romantic images... 💕</p>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>💕 To My Love 💕</h1>
+            <p>Generate a beautiful video from your heartfelt messages</p>
+        </div>
+
+        <div class="content">
+            <div class="glass-panel">
+                <h3>📝 Your Romantic Message</h3>
+
+                <div class="input-group">
+                    <label>WhatsApp Style Message:</label>
+                    <textarea id="inputText">aaj ka deen khas banae ke liye shukriya ✨❤️
+aur mera chotasa gussa zhelane ke liye shukriya 🥺💖
+aur bahut sara payar karane ke kiye kisssssss 😘💋
+aur bahut sara khayal rakahne ke liye zappiiii 🤗💞
+
+love you more jayda jyada jyada itana jayda ki more strawberry 🍓 in my love more honey 🍯 in my lips and more jayda softness 🌸 in my voice and more jyada wildness 🔥 in my lips and more ajyda love lov eyou your kaju 🥜 more jayda you 🥰
+
+more jayda love you for giving me more happiness life 🌟 and more jayda time ⏳ and more jayda efforts 💪 taki aap muhe ghar leke jao... 🏡💕</textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>Video Duration: <span id="durationValue">30s</span></label>
+                    <input type="range" id="duration" min="15" max="60" value="30">
+                </div>
+
+                <div class="input-group">
+                    <label>Theme:</label>
+                    <select id="theme">
+                        <option value="anime">🌸 Aesthetic Anime Slideshow</option>
+                    </select>
+                </div>
+
+                <button class="btn" id="generateBtn" onclick="generateVideo()" disabled>
+                    ⏳ Loading Images...
+                </button>
+
+                <div id="status" class="status"></div>
+            </div>
+
+            <div class="glass-panel">
+                <h3>🍿 Live Preview</h3>
+                <canvas id="videoCanvas" width="1280" height="720"></canvas>
+                <div class="controls">
+                    <button class="btn btn-outline" onclick="togglePreview()" id="previewBtn" disabled>
+                        ▶️ Test Preview
+                    </button>
+                    <a id="downloadBtn" class="download-link" download="romantic_anime_video.webm">
+                        💾 Save Video
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('videoCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let isPreviewing = false;
+        let animationFrame = null;
+        let recordedBlobs = [];
+        let mediaRecorder = null;
+        let stream = null;
+        let imagesReady = false;
+
+        // ─── IMAGE LOADING ─────────────────────────────────────────────
+        // We create Image objects and load them from base64 data.
+        // We wait for ALL images to fully decode before enabling buttons.
+        const imageSources = [
+            "data:image/png;base64,{{IMAGE1_BASE64}}",
+            "data:image/png;base64,{{IMAGE2_BASE64}}",
+            "data:image/png;base64,{{IMAGE3_BASE64}}"
+        ];
+
+        const imgs = [];
+
+        function loadAllImages() {
+            return Promise.all(imageSources.map((src, index) => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        console.log(`Image ${index + 1} loaded: ${img.naturalWidth}x${img.naturalHeight}`);
+                        resolve(img);
+                    };
+                    img.onerror = (e) => {
+                        console.error(`Image ${index + 1} failed to load`, e);
+                        // Create a fallback gradient image using an offscreen canvas
+                        const fallback = document.createElement('canvas');
+                        fallback.width = 1280;
+                        fallback.height = 720;
+                        const fctx = fallback.getContext('2d');
+                        const grad = fctx.createLinearGradient(0, 0, 1280, 720);
+                        const palettes = [
+                            ['#ff9a9e', '#fecfef'],
+                            ['#a18cd1', '#fbc2eb'],
+                            ['#fbc2eb', '#a6c1ee']
+                        ];
+                        grad.addColorStop(0, palettes[index][0]);
+                        grad.addColorStop(1, palettes[index][1]);
+                        fctx.fillStyle = grad;
+                        fctx.fillRect(0, 0, 1280, 720);
+                        // Draw a heart emoji as placeholder
+                        fctx.font = '200px serif';
+                        fctx.textAlign = 'center';
+                        fctx.textBaseline = 'middle';
+                        fctx.fillStyle = 'rgba(255,255,255,0.3)';
+                        fctx.fillText('💕', 640, 360);
+                        resolve(fallback); // canvas element works with drawImage too
+                    };
+                    img.src = src;
+                });
+            }));
+        }
+
+        // ─── DURATION SLIDER ───────────────────────────────────────────
+        document.getElementById('duration').addEventListener('input', (e) => {
+            document.getElementById('durationValue').textContent = e.target.value + 's';
+        });
+
+        // ─── STATUS ────────────────────────────────────────────────────
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type} show`;
+            if (type !== 'loading') {
+                setTimeout(() => {
+                    status.className = 'status';
+                }, 6000);
+            }
+        }
+
+        // ─── PREVIEW CONTROLS ──────────────────────────────────────────
+        function togglePreview() {
+            if (!imagesReady) return;
+            if (isPreviewing) {
+                stopPreview();
+            } else {
+                startPreview();
+            }
+        }
+
+        function startPreview() {
+            if (isPreviewing) return;
+            isPreviewing = true;
+            document.getElementById('previewBtn').innerHTML = '⏸️ Stop Preview';
+            animate();
+        }
+
+        function stopPreview() {
+            isPreviewing = false;
+            document.getElementById('previewBtn').innerHTML = '▶️ Test Preview';
+            if (animationFrame) {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = null;
+            }
+        }
+
+        // ─── TEXT WRAPPING ─────────────────────────────────────────────
+        function wrapText(context, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            let lines = [];
+
+            for (let n = 0; n < words.length; n++) {
+                let testLine = line + words[n] + ' ';
+                let metrics = context.measureText(testLine);
+                if (metrics.width > maxWidth && n > 0) {
+                    lines.push(line.trim());
+                    line = words[n] + ' ';
+                } else {
+                    line = testLine;
+                }
+            }
+            lines.push(line.trim());
+
+            // Center the block vertically
+            const totalHeight = lines.length * lineHeight;
+            const startY = y - totalHeight / 2;
+
+            for (let i = 0; i < lines.length; i++) {
+                context.fillText(lines[i], x, startY + (i * lineHeight));
+            }
+            return totalHeight;
+        }
+
+        // ─── RENDER A SINGLE FRAME ────────────────────────────────────
+        function renderFrame(progress) {
+            if (!imagesReady) return;
+
+            const w = canvas.width;
+            const h = canvas.height;
+
+            // Clear
+            ctx.fillStyle = '#1a1a2e';
+            ctx.fillRect(0, 0, w, h);
+
+            // ── Background Image Slideshow with Ken Burns ──
+            const timePerImage = 1.0 / imgs.length;
+            const currentImgIndex = Math.min(Math.floor(progress / timePerImage), imgs.length - 1);
+            const currentImg = imgs[currentImgIndex];
+            const imgProgress = (progress % timePerImage) / timePerImage;
+
+            // Ken Burns: slow zoom
+            ctx.save();
+            const scale = 1.05 + (imgProgress * 0.08);
+            const panX = Math.sin(imgProgress * Math.PI) * 20;
+            ctx.translate(w / 2 + panX, h / 2);
+            ctx.scale(scale, scale);
+            ctx.drawImage(currentImg, -w / 2, -h / 2, w, h);
+            ctx.restore();
+
+            // ── Crossfade: blend next image near the transition ──
+            if (imgProgress > 0.85 && currentImgIndex < imgs.length - 1) {
+                const nextImg = imgs[currentImgIndex + 1];
+                const fadeAlpha = (imgProgress - 0.85) / 0.15;
+                ctx.save();
+                ctx.globalAlpha = fadeAlpha;
+                ctx.drawImage(nextImg, 0, 0, w, h);
+                ctx.restore();
+            }
+
+            // ── Dark overlay for legibility ──
+            const grd = ctx.createLinearGradient(0, 0, 0, h);
+            grd.addColorStop(0, 'rgba(0,0,0,0.25)');
+            grd.addColorStop(0.5, 'rgba(0,0,0,0.4)');
+            grd.addColorStop(1, 'rgba(0,0,0,0.75)');
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, w, h);
+
+            // ── Floating particles ──
+            const dur = parseInt(document.getElementById('duration').value);
+            const frame = progress * dur * 30;
+            for (let i = 0; i < 20; i++) {
+                const px = (i * 97 + frame * 0.8) % w;
+                const py = h - ((frame * 1.5 + i * 43) % (h + 40));
+                const radius = 3 + (i % 4) * 2;
+                const alpha = 0.2 + (i % 3) * 0.15;
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(255, 200, 210, ${alpha})`;
+                ctx.arc(px, py, radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // ── Sparkle dots ──
+            for (let i = 0; i < 8; i++) {
+                const sx = (i * 173 + frame * 0.3) % w;
+                const sy = (i * 89 + frame * 0.5) % h;
+                const sparkAlpha = 0.3 + 0.7 * Math.abs(Math.sin(frame * 0.1 + i));
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(255, 255, 255, ${sparkAlpha})`;
+                ctx.arc(sx, sy, 2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // ── Text ──
+            const fullText = document.getElementById('inputText').value;
+            const paragraphs = fullText.split('\n').filter(p => p.trim());
+
+            if (paragraphs.length > 0) {
+                const timePerParagraph = 1.0 / paragraphs.length;
+                const pIndex = Math.min(Math.floor(progress / timePerParagraph), paragraphs.length - 1);
+                const pProgress = (progress - pIndex * timePerParagraph) / timePerParagraph;
+
+                // Fade in / out per paragraph
+                let alpha = 1;
+                if (pProgress < 0.12) alpha = pProgress / 0.12;
+                else if (pProgress > 0.88) alpha = (1.0 - pProgress) / 0.12;
+                alpha = Math.max(0, Math.min(1, alpha));
+
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+
+                // Subtle text shadow
+                ctx.shadowColor = 'rgba(0,0,0,0.9)';
+                ctx.shadowBlur = 12;
+                ctx.shadowOffsetX = 2;
+                ctx.shadowOffsetY = 2;
+
+                // Title accent
+                ctx.font = "italic 38px 'Parisienne', 'Georgia', serif";
+                ctx.fillStyle = '#ffb8b8';
+                ctx.fillText('~ My Special Message ~', w / 2, h * 0.18);
+
+                // Reset shadow for main text
+                ctx.shadowBlur = 8;
+
+                // Main paragraph text
+                ctx.font = "600 30px 'Poppins', 'Segoe UI', sans-serif";
+                ctx.fillStyle = '#ffffff';
+                const maxWidth = w * 0.78;
+                const lineHeight = 50;
+
+                wrapText(ctx, paragraphs[pIndex], w / 2, h * 0.52, maxWidth, lineHeight);
+
+                ctx.restore();
+            }
+
+            // ── Progress bar ──
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.fillRect(0, h - 6, w, 6);
+            const barGrad = ctx.createLinearGradient(0, 0, w * progress, 0);
+            barGrad.addColorStop(0, '#ff7675');
+            barGrad.addColorStop(1, '#fd79a8');
+            ctx.fillStyle = barGrad;
+            ctx.fillRect(0, h - 6, w * progress, 6);
+        }
+
+        // ─── ANIMATION LOOP ───────────────────────────────────────────
+        function animate() {
+            const startTime = performance.now();
+            const duration = parseInt(document.getElementById('duration').value) * 1000;
+
+            function loop(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                renderFrame(progress);
+
+                if (isPreviewing && progress < 1) {
+                    animationFrame = requestAnimationFrame(loop);
+                } else if (progress >= 1) {
+                    stopPreview();
+                }
+            }
+
+            animationFrame = requestAnimationFrame(loop);
+        }
+
+        // ─── VIDEO GENERATION ──────────────────────────────────────────
+        async function generateVideo() {
+            if (!imagesReady) {
+                showStatus('⏳ Images are still loading...', 'loading');
+                return;
+            }
+
+            const generateBtn = document.getElementById('generateBtn');
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = '⏳ Rendering...';
+
+            showStatus('🎬 Recording your love story... please wait', 'loading');
+            document.getElementById('downloadBtn').classList.remove('show');
+
+            try {
+                recordedBlobs = [];
+
+                // Capture stream from the canvas at 30 FPS
+                stream = canvas.captureStream(30);
+
+                // Find a supported mimeType
+                let mimeType = 'video/webm';
+                const candidates = [
+                    'video/webm;codecs=vp9',
+                    'video/webm;codecs=vp8',
+                    'video/webm'
+                ];
+                for (const candidate of candidates) {
+                    if (MediaRecorder.isTypeSupported(candidate)) {
+                        mimeType = candidate;
+                        break;
+                    }
+                }
+                console.log('Using mimeType:', mimeType);
+
+                mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: mimeType,
+                    videoBitsPerSecond: 5000000 // 5 Mbps for quality
+                });
+
+                mediaRecorder.ondataavailable = (event) => {
+                    if (event.data && event.data.size > 0) {
+                        recordedBlobs.push(event.data);
+                    }
+                };
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(recordedBlobs, { type: mimeType });
+                    console.log('Video blob size:', blob.size, 'bytes');
+
+                    if (blob.size < 1000) {
+                        showStatus('❌ Video was too small — try again or use Chrome.', 'error');
+                        generateBtn.disabled = false;
+                        generateBtn.innerHTML = '🎥 Render Beautiful Video';
+                        return;
+                    }
+
+                    const url = URL.createObjectURL(blob);
+                    const dlBtn = document.getElementById('downloadBtn');
+                    dlBtn.href = url;
+                    dlBtn.download = `romantic_video_${Date.now()}.webm`;
+                    dlBtn.classList.add('show');
+
+                    showStatus('✅ Video ready! Click "💾 Save Video" to download.', 'success');
+                    generateBtn.disabled = false;
+                    generateBtn.innerHTML = '🎥 Create Another';
+                };
+
+                // IMPORTANT: pass timeslice so data is collected in chunks
+                mediaRecorder.start(200); // collect data every 200ms
+
+                // Run animation
+                startPreview();
+
+                const duration = parseInt(document.getElementById('duration').value) * 1000;
+
+                // Stop recording after the full duration
+                setTimeout(() => {
+                    stopPreview();
+                    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                        mediaRecorder.stop();
+                    }
+                    if (stream) {
+                        stream.getTracks().forEach(track => track.stop());
+                    }
+                }, duration + 500);
+
+            } catch (error) {
+                console.error('Recording error:', error);
+                showStatus('❌ Recording failed: ' + error.message + '. Use Chrome for best results!', 'error');
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '🎥 Render Beautiful Video';
+            }
+        }
+
+        // ─── INITIALIZATION ────────────────────────────────────────────
+        async function init() {
+            console.log('Starting image loading...');
+            try {
+                const loaded = await loadAllImages();
+                loaded.forEach(img => imgs.push(img));
+                imagesReady = true;
+                console.log(`All ${imgs.length} images ready!`);
+
+                // Remove loading overlay
+                const overlay = document.getElementById('loadingOverlay');
+                if (overlay) overlay.remove();
+
+                // Enable buttons
+                document.getElementById('generateBtn').disabled = false;
+                document.getElementById('generateBtn').innerHTML = '🎥 Render Beautiful Video';
+                document.getElementById('previewBtn').disabled = false;
+
+                // Render first frame
+                renderFrame(0);
+            } catch (err) {
+                console.error('Image loading error:', err);
+                const overlay = document.getElementById('loadingOverlay');
+                if (overlay) overlay.innerHTML = '<p style="color:#ff7675;font-size:1.5rem;">Failed to load images. Please refresh.</p>';
+            }
+        }
+
+        // Start when DOM is ready
+        init();
+    </script>
+</body>
+
+</html>

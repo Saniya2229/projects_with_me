@@ -1,0 +1,66 @@
+Saniya Hakim
+♂phone+91 9588427751 |♂¶ap-¶arker-altPune, Maharashtra |/envel⌢pesaniyahakim22@gmail.com
+/linkedinlinkedin.com/in/saniya-hakim |/githubgithub.com/Saniya2229
+Professional Summary
+Frontend and Full Stack Web Developer with a strong foundation in Artificial Intelligence and Data Science. Experienced
+in React, Angular, Node.js, Express.js, JavaScript, Java, MongoDB and REST APIs. Passionate about building scalable
+applications, intuitive UI/UX, clean code and continuously learning modern technologies. Experienced in frontend-backend
+integration, REST API development, and collaborative software development. Strong problem-solving abilities with a
+commitment to writing maintainable, efficient code and delivering high-quality user experiences.
+Technical Skills
+Programming LanguagesJava, JavaScript, Python, SQL
+FrontendReact.js, Angular, HTML5, CSS3, Tailwind CSS, Bootstrap
+BackendNode.js, Express.js, REST APIs, Authentication
+DatabasesMongoDB, MySQL
+AI & Data ScienceNumPy, Pandas, Scikit-learn
+Core CSData Structures & Algorithms, OOP, DBMS, Problem Solving
+ToolsGit, GitHub, Postman, npm, Vite
+Professional Experience
+AI/ML Intern|NeuAI Labs LLPDec 2024 – Jan 2025
+Pune, India
+• Trained predictive regression models using Scikit-learn and NumPy, achieving 87% accuracy on real-world datasets.
+• Optimized data pipelines with Pandas, reducing model training time by 15%.
+• Improved forecasting precision by 12% using regression analysis.
+• Ensured 90% code coverage by implementing unit tests.
+Web Developer Intern|Amdox TechnologiesDec 2025 – Feb 2026
+Pune, Maharashtra
+• Worked on full stack applications including Job Listing Portal and Certificate Verification System.
+• Developed frontend interfaces using React and backend APIs using Node.js and Express.js.
+• Integrated MongoDB for secure data handling and authentication workflows.
+Frontend Developer Intern|Midbrains TechnologiesAug 2023
+Maharashtra
+• Built responsive business websites and user-friendly layouts.
+• Strengthened frontend skills through real client-based projects.
+Projects
+Job Listing Portal (HireHive)/githubGitHub Dec 2025 – Feb 2026
+React.js,Node.js,Express.js, MongoDB, JavaScript,REST APIs, Axios
+• Developed a full stack recruitment platform with secure authentication and role-based dashboards.
+• Built REST APIs for job posting, application management, and user authentication.
+• Designed responsive React interfaces with reusable components and intuitive UI/UX.
+• Integrated MongoDB for scalable data management and optimized backend workflows.
+Certificate Verification System (ProofPetal)/githubGitHub Dec 2025 – Feb 2026
+React.js, Node.js, Express.js, MongoDB, JavaScript, JWT Authentication
+• Developed a secure certificate management system with role-based authentication.
+• Implemented Excel bulk upload, certificate validation, and PDF download features.
+• Built backend APIs using Express.js and integrated MongoDB for secure storage.
+• Improved validation logic and application reliability through efficient backend design.
+FeedingHope/githubGitHub Jun 2022 – Mar 2023
+PHP , MySQL, HTML5, CSS3, JavaScript, Bootstrap, PHPMailer , Apache (XAMPP)
+• Built a food donation platform connecting restaurants with NGOs.
+• Designed responsive interfaces for food donors and NGOs.
+• Implemented streamlined food request and donation workflows.
+• Improved accessibility and user experience through intuitive UI design.
+Luna FinTech Dashboard/githubGitHub Apr 2026
+React.js, JavaScript, Tailwind CSS, Zustand, Recharts, Framer Motion, Sonner , Lucide React
+• Developed a modern fintech dashboard with reusable UI components and responsive layouts.
+• Created interactive analytics screens with clean, intuitive user experience.
+• Focused on component-based architecture and frontend performance optimization.
+Certificates
+Web Designer Intern– Midbrains Technologies/githubCertificate
+Artificial Intelligence & Machine Learning– NeuAI Labs LLP/githubCertificate
+Web Development– Amdox Technologies/githubCertificate
+Education
+B.Tech in Artificial Intelligence & Data Science2023 – 2026
+Genba Sopanrao Moze College of Engineering, PuneSGPA: 9.15/10.0
+Diploma in Computer Engineering2021 – 2023
+JSPM Rajarshi Shahu College of Engineering82.57%
